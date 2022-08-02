@@ -1,0 +1,220 @@
+
+
+create table TEAM(TID varchar(10)primary key,TNAME varchar(30)NOT NULL,COACH varchar(30)NOT NULL,CAPTAIN_ID varchar(10)NOT NULL,CITY varchar(20),foreign
+key(CAPTAIN_ID)references branch player(PID));
+
+
+
+create table PLAYER(PID varchar(10)primary key,PNAME varchar(20)NOT NULL,AGE int(4)NOT NULL,TID varchar(10),foreign key(TID) references TEAM(TID));
+  create table STADIUM(SID varchar(10)PRIMARY KEY,SNAME varchar(20)NOT NULL,PINCODE int(10)NOT NULL,CITY varchar(15)NOT NULL,AREA varchar(20)NOT NULL);
+  
+  alter table MATCHES
+     modify MID varchar(10)PRIMARY KEY;
+     
+     
+     
+     
+     
+  mysql> create table TEAM(TID varchar(10)primary key,TNAME varchar(30)NOT NULL,COACH varchar(30)NOT NULL,CAPTAIN_ID varchar(10)NOT NULL,CITY varchar(20));
+Query OK, 0 rows affected (0.02 sec)
+
+   
+     
+    mysql> DESC TEAM;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| TID        | varchar(10) | NO   | PRI | NULL    |       |
+| TNAME      | varchar(30) | NO   |     | NULL    |       |
+| COACH      | varchar(30) | NO   |     | NULL    |       |
+| CAPTAIN_ID | varchar(10) | NO   |     | NULL    |       |
+| CITY       | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec) 
+     
+     
+  mysql> create table PLAYER(PID varchar(10)primary key,PNAME varchar(20)NOT NULL,AGE int(4)NOT NULL,TID varchar(10),foreign key(TID) references TEAM(TID));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+  
+mysql> DESC PLAYER;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| PID   | varchar(10) | NO   | PRI | NULL    |       |
+| PNAME | varchar(20) | NO   |     | NULL    |       |
+| AGE   | int         | NO   |     | NULL    |       |
+| TID   | varchar(10) | YES  | MUL | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+
+
+mysql> alter table TEAM
+    -> add foreign
+    -> key(CAPTAIN_ID)references PLAYER(PID);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC PLAYER;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| PID   | varchar(10) | NO   | PRI | NULL    |       |
+| PNAME | varchar(20) | NO   |     | NULL    |       |
+| AGE   | int         | NO   |     | NULL    |       |
+| TID   | varchar(10) | YES  | MUL | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+mysql> create table STADIUM(SID varchar(10)PRIMARY KEY,SNAME varchar(20)NOT NULL,PINCODE int(10)NOT NULL,CITY varchar(15)NOT NULL,AREA varchar(20)NOT NULL);
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+mysql> DESC STADIUM;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| SID     | varchar(10) | NO   | PRI | NULL    |       |
+| SNAME   | varchar(20) | NO   |     | NULL    |       |
+| PINCODE | int         | NO   |     | NULL    |       |
+| CITY    | varchar(15) | NO   |     | NULL    |       |
+| AREA    | varchar(20) | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+
+
+create table MATCHES(MID varchar(10),MDATE DATE NOT NULL,TIME TIME NOT NULL,SID varchar(10)NOT NULL,TEAM1_ID varchar(15)NOT NULL,TEAM2_ID varchar(15)NOT NULL,WINNING_TEAM_ID varchar(10)NOT NULL,MAN_OF_MATCH varchar(20),foreign key(SID)references STADIUM(SID),foreign key(TEAM1_ID)references TEAM(TID),foreign key(TEAM2_ID)references TEAM(TID),foreign key(WINNING_TEAM_ID)references TEAM(TID),foreign key(MAN_OF_MATCH)references PLAYER(PID));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql>  alter table MATCHES
+    ->      modify MID varchar(10)PRIMARY KEY;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC MATCHES;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| MID             | varchar(10) | NO   | PRI | NULL    |       |
+| MDATE           | date        | NO   |     | NULL    |       |
+| TIME            | time        | NO   |     | NULL    |       |
+| SID             | varchar(10) | NO   | MUL | NULL    |       |
+| TEAM1_ID        | varchar(15) | NO   | MUL | NULL    |       |
+| TEAM2_ID        | varchar(15) | NO   | MUL | NULL    |       |
+| WINNING_TEAM_ID | varchar(10) | NO   | MUL | NULL    |       |
+| MAN_OF_MATCH    | varchar(20) | YES  | MUL | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+create table PLAYER_PHONE(PID varchar(10)NOT NULL,PHONE int(10)PRIMARY KEY,foreign key(PID)references PLAYER(PID));
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+
+<pre>mysql&gt; DESC PLAYER_PHONE;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| PID   | varchar(10) | NO   | MUL | NULL    |       |
+| PHONE | int         | NO   | PRI | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+
+mysql> show tables;
++-----------------------------+
+| Tables_in_VP21MC043_cricket |
++-----------------------------+
+| MATCHES                     |
+| PLAYER                      |
+| PLAYER_PHONE                |
+| STADIUM                     |
+| TEAM                        |
++-----------------------------+
+5 rows in set (0.00 sec)
+
+
+
+///query
+
+mysql> select * from student, branch where student.sem='2' AND branch.branchname='MCA';
++------------+---------+---------+----------+-----+----------+------------+---------+
+| USN        | Name    | Address | branchid | sem | branchid | branchname | HOD     |
++------------+---------+---------+----------+-----+----------+------------+---------+
+| 4VP21MC01  | Anu     | Puttur  | B1       | 2   | B1       | MCA        | Vandana |
+| 4VP21MC045 | Shruthi | Puttur  | B1       | 2   | B1       | MCA        | Vandana |
++------------+---------+---------+----------+-----+----------+------------+---------+
+2 rows in set (0.01 sec)
+
+//OR
+mysql> select usn,branchname,name,sem from student,branch where student.sem='2' AND branch.branchname='MCA';
++------------+------------+---------+-----+
+| usn        | branchname | name    | sem |
++------------+------------+---------+-----+
+| 4VP21MC01  | MCA        | Anu     | 2   |
+| 4VP21MC045 | MCA        | Shruthi | 2   |
++------------+------------+---------+-----+
+2 rows in set (0.00 sec)
+//OR
+mysql> select usn,branchname,name,sem from student s,branch b where s.sem='2' AND b.branchname='MCA';
++------------+------------+---------+-----+
+| usn        | branchname | name    | sem |
++------------+------------+---------+-----+
+| 4VP21MC01  | MCA        | Anu     | 2   |
+| 4VP21MC045 | MCA        | Shruthi | 2   |
++------------+------------+---------+-----+
+2 rows in set (0.00 sec)
+
+//OR
+mysql> select * from student where student.sem='2' AND student.branchid=(select branchid from branch where branchname="MCA");
++------------+---------+---------+----------+-----+
+| USN        | Name    | Address | branchid | sem |
++------------+---------+---------+----------+-----+
+| 4VP21MC01  | Anu     | Puttur  | B1       | 2   |
+| 4VP21MC045 | Shruthi | Puttur  | B1       | 2   |
++------------+---------+---------+----------+-----+
+2 rows in set (0.00 sec)
+
+//OR
+
+mysql> select * from student where sem='2' AND branchid IN(select branchid from branch where branchname="MCA");
++------------+---------+---------+----------+-----+
+| USN        | Name    | Address | branchid | sem |
++------------+---------+---------+----------+-----+
+| 4VP21MC01  | Anu     | Puttur  | B1       | 2   |
+| 4VP21MC045 | Shruthi | Puttur  | B1       | 2   |
++------------+---------+---------+----------+-----+
+2 rows in set (0.00 sec)
+
+ii)
+mysql> select * from student where USN NOT IN(select USN from Borrow);
++------------+--------------+---------+----------+-----+
+| USN        | Name         | Address | branchid | sem |
++------------+--------------+---------+----------+-----+
+| 4VP21MC042 | Shraddha     | Puttur  | B3       | 3   |
+| 4VP21MC043 | Shraddha A.S | Puttur  | B5       | 1   |
+| 4VP21MC044 | Shrunga      | Puttur  | B2       | 3   |
++------------+--------------+---------+----------+-----+
+3 rows in set (0.00 sec)
+
+vii) Display the book names in descending order of their names.
+mysql> select BookName from Book ORDER BY BookName DESC;
++----------------------+
+| BookName             |
++----------------------+
+| ThermoDynamic        |
+| Research methodology |
+| DBMS                 |
+| data structure       |
+| algorith             |
+| AI                   |
++----------------------+
+6 rows in set (0.00 sec)
+DESC Student;
+
+
+select Student.USN,Student.Name,branch.branchname,Book.BookName,Author.Author_Name,Borrow.BORROWED_DATE  where Student.branchid=branch.
+branchid AND branch.branchid=Book.branchid AND Book.Authorid=Author.Authorid AND Student.USN=Borrow.USN AND Student.sem='2' AND branch.branchname="MCA";
+
+
+
