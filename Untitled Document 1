@@ -1,0 +1,191 @@
+mysql> show tables;
++-----------------------------+
+| Tables_in_VP21MC043_college |
++-----------------------------+
+| Author                      |
+| Book                        |
+| Borrow                      |
+| branch                      |
+| student                     |
++-----------------------------+
+5 rows in set (0.01 sec)
+
+mysql> DESC branch;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| branchid   | varchar(20) | NO   | PRI | NULL    |       |
+| branchname | varchar(20) | NO   |     | NULL    |       |
+| HOD        | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DESC student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| USN      | varchar(10) | NO   | PRI | NULL    |       |
+| Name     | varchar(20) | NO   |     | NULL    |       |
+| Address  | varchar(30) | NO   |     | NULL    |       |
+| branchid | varchar(20) | YES  | MUL | NULL    |       |
+| sem      | varchar(10) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> DESC Book;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Bookid    | varchar(10) | NO   | PRI | NULL    |       |
+| BookName  | varchar(20) | NO   |     | NULL    |       |
+| Authorid  | varchar(10) | YES  | MUL | NULL    |       |
+| Publisher | varchar(30) | NO   |     | NULL    |       |
+| branchid  | varchar(10) | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> DESC Author;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Authorid    | varchar(10) | NO   | PRI | NULL    |       |
+| Author_Name | varchar(20) | NO   |     | NULL    |       |
+| Country     | varchar(20) | NO   |     | NULL    |       |
+| age         | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> DESC Borrow;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| USN           | varchar(10) | YES  | MUL | NULL    |       |
+| Bookid        | varchar(20) | NO   | MUL | NULL    |       |
+| BORROWED_DATE | date        | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into branch values('B1','MCA','Vandana');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into branch values('B2','MBA','Dr.iyer');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into branch values("B3","CSS","Pro Krishna Mohan");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into branch values("B4","mech","Pro Manajesh");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into branch values("B5","civil","Manajesh");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from branch;
++----------+------------+-------------------+
+| branchid | branchname | HOD               |
++----------+------------+-------------------+
+| B1       | MCA        | Vandana           |
+| B2       | MBA        | Dr.iyer           |
+| B3       | CSS        | Pro Krishna Mohan |
+| B4       | mech       | Pro Manajesh      |
+| B5       | civil      | Manajesh          |
+
+create table branch(branchid varchar(20)PRIMARY KEY,branchname varchar(20)NOT NULL,HOD varchar(20));
+
+create table student(USN varchar(10)PRIMARY KEY,Name varchar(20)NOT NULL,Address varchar(30)NOT NULL,branchid varchar(20),sem varchar(10)NOT NULL,foreign key(branchid) references branch(branchid));
+
+create table Author(Authorid varchar(10)PRIMARY KEY,Author_Name varchar(20)Not NULL,Country varchar(20)NOT NULL,age int(10));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+create table Borrow(USN varchar(10),Bookid varchar(20)NOT NULL,BORROWED_DATE DATE,FOREIGN KEY(USN) references student(USN),FOREIGN KEY(Bookid) references Book(Bookid));
+
+create table Book(Bookid varchar(10)PRIMARY KEY,BookName Varchar(20)NOT NULL,Authorid varchar(10),Publisher varchar(30)NOT NULL,branchid varchar(10),FOREIGN KEY(Authorid)references Author(Authorid),FOREIGN KEY(branchid) references branch(branchid));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into student values('4VP21MC01','Anu','Puttur','B1','2');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student values('4VP21MC02','Ashil','Puttur','B4','4');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student values('4VP21MC042','Shraddha','Puttur','B3','3');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student values('4VP21MC043','Shraddha A.S','Puttur','B5','1');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student values('4VP21MC044','Shrunga','Puttur','B2','3');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student values('4VP21MC045','Shruthi','Puttur','B1','2');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into student values('4VP21MC046','Shruthika','Puttur','B2','3');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from student;
++------------+--------------+---------+----------+-----+
+| USN        | Name         | Address | branchid | sem |
++------------+--------------+---------+----------+-----+
+| 4VP21MC01  | Anu          | Puttur  | B1       | 2   |
+| 4VP21MC02  | Ashil        | Puttur  | B4       | 4   |
+| 4VP21MC042 | Shraddha     | Puttur  | B3       | 3   |
+| 4VP21MC043 | Shraddha A.S | Puttur  | B5       | 1   |
+| 4VP21MC044 | Shrunga      | Puttur  | B2       | 3   |
+| 4VP21MC045 | Shruthi      | Puttur  | B1       | 2   |
+| 4VP21MC046 | Shruthika    | Puttur  | B2       | 3   |
++------------+--------------+---------+----------+-----+
+7 rows in set (0.00 sec)
+
+
+mysql> insert into Author values('1','Ramez Elmasri','Arlinthon',51);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Author values('2','Baidyanath Mishra','India',52);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Author values('3','ellis horowtz ','US',41);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into Author values('4','yunus','japan',34);
+Query OK, 1 row affected (0.01 sec)
+mysql> select * from Author;
++----------+-------------------+-----------+------+
+| Authorid | Author_Name       | Country   | age  |
++----------+-------------------+-----------+------+
+| 1        | Ramez Elmasri     | Arlinthon |   51 |
+| 2        | Baidyanath Mishra | India     |   52 |
+| 3        | ellis horowtz     | US        |   41 |
+| 4        | yunus             | japan     |   34 |
++----------+-------------------+-----------+------+
+4 rows in set (0.00 sec)
+
++--------+----------------------+----------+--------------+----------+
+| Bookid | BookName             | Authorid | Publisher    | branchid |
++--------+----------------------+----------+--------------+----------+
+| BK1    | DBMS                 | 1        | PEARSON      | B1       |
+| BK2    | Research methodology | 1        | PEARSON      | B2       |
+| BK3    | data structure       | 1        | MS Graw HILL | B3       |
+| BK4    | AI                   | 3        | MS Graw HILL | B4       |
+| BK5    | ThermoDynamic        | 4        | taylor       | B5       |
+| BK6    | algorith             | 2        | MC graw hill | B5       |
++--------+----------------------+----------+--------------+----------+
+
+mysql> select * FROM Borrow;
++------------+--------+---------------+
+| USN        | Bookid | BORROWED_DATE |
++------------+--------+---------------+
+| 4VP21MC01  | BK1    | 2021-01-01    |
+| 4VP21MC045 | BK2    | 2021-02-21    |
+| 4VP21MC045 | BK5    | 2021-06-09    |
+| 4VP21MC046 | BK3    | 2021-08-07    |
+| 4VP21MC046 | BK4    | 2021-12-17    |
+| 4VP21MC02  | BK4    | 2021-11-17    |
+| 4VP21MC02  | BK1    | 2021-01-01    |
++------------+--------+---------------+
+7 rows in set (0.00 sec)
+
+
+
+
+
