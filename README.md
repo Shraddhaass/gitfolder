@@ -132,8 +132,9 @@ A Random Forest Regressor is an ensemble learning method that uses multiple deci
 
 # Initialize the Random Forest Regressor
 rf = RandomForestRegressor(random_state=42)
- 
 Following is the MSE and R^2 Score for target variables:
+
+
 ![image](https://github.com/user-attachments/assets/d23ba7c6-72da-4272-af94-417e524ec712)
 
 
