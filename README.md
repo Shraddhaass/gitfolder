@@ -45,7 +45,8 @@ Transformation: Replace the original categorical data with the newly assigned nu
 
 
 
-Visualizations
+## Visualizations
+
 ![image](https://github.com/user-attachments/assets/c78627e8-e28d-4783-aa51-d6fe8fda4a26)
 
 The graph shows the distribution of PROI, highlighting the highest (0.3628) and lowest (0.0128) values.
